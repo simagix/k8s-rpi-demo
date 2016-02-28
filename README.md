@@ -21,6 +21,22 @@ kubectl get rc
 kubectl get svc
 ```
 
+### Scale
+```
+kubectl scale rc busybox --replicas=5
+kubectl scale rc mobile-signature --replicas=1
+kubectl scale rc signature-map --replicas=2
+```
+
+```
+$ kubectl get pods -o wide
+NAME                     READY     STATUS    RESTARTS   AGE       NODE
+busybox-iown8            1/1       Running   0          1m        192.168.1.5
+k8s-master-127.0.0.1     3/3       Running   6          4d        127.0.0.1
+mobile-signature-zflym   1/1       Running   0          56s       192.168.1.5
+signature-map-14zj2      1/1       Running   0          41s       192.168.1.5
+```
+
 ### Stop Services
 ```
 kubectl delete svc signature-map
@@ -29,6 +45,25 @@ kubectl delete pod signature-map-<some_id>
 kubectl delete svc mobile-signature
 kubectl delete rc mobile-signature
 kubectl delete pod mobile-signature-<some_id>
+```
+### Failover
+Pull a cable from a slave
+```
+$ kubectl get pods -o wide
+NAME                     READY     STATUS    RESTARTS   AGE       NODE
+busybox-iown8            1/1       Running   0          6m        192.168.1.5
+k8s-master-127.0.0.1     3/3       Running   6          4d        127.0.0.1
+mobile-signature-zflym   1/1       Running   0          6m        192.168.1.5
+signature-map-14zj2      1/1       Running   0          6m        192.168.1.5
+```
+Wait about 5 minutes
+```
+$ kubectl get pods -o wide
+NAME                     READY     STATUS    RESTARTS   AGE       NODE
+busybox-8ecog            1/1       Running   0          3m        127.0.0.1
+k8s-master-127.0.0.1     3/3       Running   6          4d        127.0.0.1
+mobile-signature-ctswr   1/1       Running   0          3m        127.0.0.1
+signature-map-3l1zj      1/1       Running   0          3m        127.0.0.1
 ```
 
 ### Docker
