@@ -7,6 +7,8 @@
 ### Kubernetes
 Start web apps using kubectl
 ```
+kubectl run mosquitto --image=simagix/mosquitto-rpi --port=1883
+kubectl expose rc mosquitto --port=1883 --target-port=1883 --external-ip=192.168.1.2
 kubectl run mobile-signature --image=simagix/mobile-signature-rpi --port=3300 --env="MQTT_BROKER=mqtt://192.168.1.2"
 kubectl expose rc mobile-signature --port=3300 --target-port=3300 --external-ip=192.168.1.2
 kubectl run signature-map --image=simagix/signature-map-rpi --port=3301 --env="MQTT_BROKER=mqtt://192.168.1.2"
