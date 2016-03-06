@@ -1,5 +1,7 @@
 # Demo of Kubernetes on Raspberry PI
 ![Raspberry PI Cluster](raspberry_poster.jpg)
+### Application Flow
+![Workflow](components.png)
 ### Modules
 - simagix/mobile-signature
 - simagix/signature-map
@@ -63,7 +65,7 @@ k8s-master-127.0.0.1     3/3       Running   6          4d        127.0.0.1
 mobile-signature-zflym   1/1       Running   0          6m        192.168.1.5
 signature-map-14zj2      1/1       Running   0          6m        192.168.1.5
 ```
-Wait about 5 minutes
+Wait about 2 minutes
 ```
 $ kubectl get pods -o wide
 NAME                     READY     STATUS    RESTARTS   AGE       NODE
