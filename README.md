@@ -1,4 +1,5 @@
 # Demo of Kubernetes on Raspberry PI
+![Raspberry PI Cluster](raspberry_poster.jpg)
 ### Modules
 - simagix/mobile-signature
 - simagix/signature-map
@@ -7,12 +8,13 @@
 ### Kubernetes
 Start web apps using kubectl
 ```
+export EXTERNAL_IP=192.168.1.2
 kubectl run mosquitto --image=simagix/mosquitto-rpi --port=1883
-kubectl expose rc mosquitto --port=1883 --target-port=1883 --external-ip=192.168.1.2
-kubectl run mobile-signature --image=simagix/mobile-signature-rpi --port=3300 --env="MQTT_BROKER=mqtt://192.168.1.2"
-kubectl expose rc mobile-signature --port=3300 --target-port=3300 --external-ip=192.168.1.2
-kubectl run signature-map --image=simagix/signature-map-rpi --port=3301 --env="MQTT_BROKER=mqtt://192.168.1.2"
-kubectl expose rc signature-map --port=3301 --target-port=3301 --external-ip=192.168.1.2
+kubectl expose rc mosquitto --port=1883 --target-port=1883 --external-ip=$EXTERNAL_IP
+kubectl run mobile-signature --image=simagix/mobile-signature-rpi --port=3300 --env="MQTT_BROKER=mqtt://$EXTERNAL_IP"
+kubectl expose rc mobile-signature --port=3300 --target-port=3300 --external-ip=$EXTERNAL_IP
+kubectl run signature-map --image=simagix/signature-map-rpi --port=3301 --env="MQTT_BROKER=mqtt://$EXTERNAL_IP"
+kubectl expose rc signature-map --port=3301 --target-port=3301 --external-ip=$EXTERNAL_IP
 ```
 
 ### Get Info
@@ -43,11 +45,14 @@ signature-map-14zj2      1/1       Running   0          41s       192.168.1.5
 ```
 kubectl delete svc signature-map
 kubectl delete rc signature-map
-kubectl delete pod signature-map-<some_id>
+#kubectl delete pod signature-map-<some_id>
 kubectl delete svc mobile-signature
 kubectl delete rc mobile-signature
-kubectl delete pod mobile-signature-<some_id>
+#kubectl delete pod mobile-signature-<some_id>
+kubectl delete svc mosquitto
+kubectl delete rc mosquitto
 ```
+
 ### Failover
 Pull a cable from a slave
 ```
