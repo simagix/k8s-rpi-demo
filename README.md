@@ -1,5 +1,5 @@
 # Demo of Kubernetes on Raspberry PI
-![Raspberry PI Cluster](raspberry_poster.jpg)
+![Raspberry PI Cluster](raspberry_poster.png)
 ### Application Flow
 ![Workflow](components.png)
 ### Modules
